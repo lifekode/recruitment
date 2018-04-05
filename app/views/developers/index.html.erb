@@ -1,0 +1,43 @@
+<div class="col-md-10 col-md-offset-1">
+
+  <div class="panel panel-default panel-table">
+    <div class="panel-heading">
+      <div class="row">
+        <%= form_tag(root_path, method: 'get') do %>
+          <%= text_field_tag :email, params[:email], placeholder: "developer name...", id: 'email_field', class: "form-control", 'data-toggle' => 'tooltip', title: 'Enter to search' %>
+          <div class="input-group">
+            <%= select_tag 'skill', options_from_collection_for_select(@skills, "id", "name", @skill_selected.nil? ? nil : @skill_selected.id), :include_blank => 'All Program Language', onchange: "this.form.submit();", class: "form-control inline" %>
+            <%= select_tag 'language', options_from_collection_for_select(@languages, "id", "code", @language_selected.nil? ? nil : @language_selected.id), :include_blank => 'All Language', onchange: "this.form.submit();", class: "form-control inline" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="panel-body">
+      <table class="table table-striped table-bordered table-list">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Programming Languagesme</th>
+            <th>Language</th>
+          </tr>
+        </thead>
+        <% @developers.each do |developer| %>
+        <tbody>
+          <tr>
+            <td><%= developer.email %></td>
+            <td>
+              <%= developer.skills.pluck(:name).join(', ') %>,
+            </td>
+            <td>
+              <%= developer.languages.pluck(:code).join(', ') %>,
+            </td>
+          </tr>
+        </tbody>
+        <% end %>
+      </table>
+
+    </div>
+    <div class="panel-footer">
+    </div>
+  </div>
+</div>
